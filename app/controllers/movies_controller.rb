@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  # protect_from_forgery with: :null_session
 
   def index
     movies = Movie.all
@@ -16,6 +17,11 @@ class MoviesController < ApplicationController
         json: movie.as_json(only: [:id, :title, :overview, :release_date, :inventory]),
         status: :ok
       )
+    else
+      render(
+        json: {nothing: true}, status: :not_found
+      )
+    end
   end
 
   def create

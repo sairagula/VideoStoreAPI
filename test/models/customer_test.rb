@@ -19,8 +19,9 @@ describe Customer do
       c = Customer.new(registered_at: "Date registered", address: "An address", city: "Seattle", state: "WA", postal_code: "zip", phone: "111111111", account_credit: 15.50)
 
       c.wont_be :valid?
+      c.errors.messages.must_include :name
 
-      # can't be saved because it isn't valid 
+      # can't be saved because it isn't valid
       c.save
       Customer.count.must_equal start_count
 

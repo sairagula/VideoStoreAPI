@@ -51,4 +51,60 @@ describe MoviesController do
       body.must_be :empty?
     end
   end
+
+  describe "show" do
+    # This bit is up to you!
+    it "can get a movie" do
+      get movie_path(movies(:two).id)
+      must_respond_with :success
+    end
+
+    it "responds correctly when movie is not found" do
+      invalid_movie_id = Movie.all.last.id + 1
+      get movie_path(invalid_movie_id)
+
+      must_respond_with :not_found
+
+      body = JSON.parse(response.body)
+      body.must_equal "nothing" => true
+    end
+  end
+
+  describe "create" do
+    let(:movie_data) {
+      {
+        title: "Cool movie",
+        inventory: 7,
+        release_date: "feb",
+        overview: "Something"
+      }
+    }
+
+
+    it "Create a Movie" do
+      proc {
+        post movies_path, params: {movie: movie_data}
+      }.must_change 'Movie.count', 1
+
+      must_respond_with :success
+    end
+
+    it "won't change the db if given invalid data" do
+      invalid_movie_data =
+        {
+          title: nil,
+          inventory: 7,
+          release_date: "feb",
+          overview: "Something"
+        }
+      proc {
+        post movies_path, params: {movie: invalid_movie_data}
+      }.wont_change 'Movie.count'
+
+      must_respond_with :bad_request
+
+      body = JSON.parse(response.body)
+      body.must_equal "errors" => {"title" => ["can't be blank"]}
+    end
+  end
 end

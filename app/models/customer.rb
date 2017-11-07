@@ -1,4 +1,7 @@
 class Customer < ApplicationRecord
+
+  include ActiveModel::Serialization
+  
   has_many :rentals
 
   validates :name, presence: true

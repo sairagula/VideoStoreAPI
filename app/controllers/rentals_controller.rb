@@ -12,7 +12,10 @@ class RentalsController < ApplicationController
         json: {error: rental.errors.messages}, status: :bad_request
       )
     end # if/else
-  end
+  end # create
+
+  def update
+  end # update 
 
   private
   def rental_data

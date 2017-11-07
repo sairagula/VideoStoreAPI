@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :movies, only: [:index, :show, :create]
   resources :customers, only: [:index]
 
-  resources :rentals, only: [:create]
+  resources :rentals, only: [:create, :update]
 
+  # patch '/rentals/:id', to: "rentals#checkin", as: 'rental_checkin'
 end

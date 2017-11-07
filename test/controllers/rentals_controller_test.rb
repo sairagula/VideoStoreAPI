@@ -71,4 +71,29 @@ describe RentalsController do
       body.keys.sort.must_equal keys
     end
   end # checkout
-end
+
+  describe "checkin" do
+    let(:r) {Rental.new(customer_id: c.id,movie_id: m.id)}
+
+    it "will check in a movie" do
+          # arrange
+          start_count = Rental.count
+          availible = m.available_inventory
+          num_movies = c.movies_checked_out_count
+
+          r = post rentals_path, params: {rental: rental_data}
+
+          Rental.count.must_equal start_count + 1
+
+          r_id = Rental.last.id
+
+          # Act
+          patch rental_path(r_id)
+
+          # Assert
+          Rental.count.must_equal start_count 
+          m.available_inventory.must_equal availible
+          c.movies_checked_out_count.must_equal num_movies
+    end # checkin a movie
+  end # checkin
+end # renals

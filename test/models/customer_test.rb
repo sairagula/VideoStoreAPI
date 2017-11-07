@@ -11,7 +11,7 @@ describe Customer do
       c_id = c.id
 
       c.must_respond_to :rentals
-      c.rentals.must_be :empty
+      c.rentals.must_be :empty?
 
       r = Rental.new(customer_id: "c_id", movie_id: "m_id", due_date: Date.new(2017, 12, 1))
 

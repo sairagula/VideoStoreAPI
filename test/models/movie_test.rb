@@ -42,4 +42,15 @@ describe Movie do
       end
     end
   end
+
+  describe "available_inventory" do
+    it "should return available_inventory" do
+      movie = Movie.first
+      available = movie.inventory
+      movie.available_inventory.must_equal available
+    end
+
+    # write addidtional test for available_inventory
+  end
+
 end

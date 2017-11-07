@@ -68,6 +68,10 @@ describe MoviesController do
       body = JSON.parse(response.body)
       body.must_equal "nothing" => true
     end
+
+    #TO DO
+    ### Test available inventory
+
   end
 
   describe "create" do

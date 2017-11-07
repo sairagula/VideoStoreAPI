@@ -3,6 +3,23 @@ require "test_helper"
 describe Customer do
   let(:customer) { Customer.new }
 
+  describe "relationships" do
+    it "has a collection of rentals" do
+      c = Customer.new(name: "Mira")
+      c. save
+      m_id = Movie.first.id
+      c_id = c.id
+
+      c.must_respond_to :rentals
+      c.rentals.must_be :empty?
+
+      r = Rental.new(customer_id: "c_id", movie_id: "m_id", due_date: Date.new(2017, 12, 1))
+
+      c.rentals << r
+      c.rentals.must_include r
+    end # collection of rentals
+  end # relationships
+
   describe "validations" do
     it "can be created if all fields are provided" do
       start_count = Customer.count

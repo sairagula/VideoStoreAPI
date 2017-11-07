@@ -3,9 +3,7 @@ class RentalsController < ApplicationController
   def create
     rental = Rental.new(rental_data)
     rental.due_date = Date.today + 3
-    binding.pry
     if rental.save
-      binding.pry
       render(
         json: {id: rental.id, customer_id: rental.customer.id, movie_id: rental.movie.id}
       )

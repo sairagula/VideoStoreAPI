@@ -1,4 +1,8 @@
 class MoviesController < ApplicationController
+<<<<<<< HEAD
+=======
+  # protect_from_forgery with: :null_session
+>>>>>>> eea8e4e520bf2cd033d0cff710298a1183a7c38d
 
   def index
     movies = Movie.all

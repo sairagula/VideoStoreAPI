@@ -5,7 +5,7 @@ class RentalsController < ApplicationController
     rental.due_date = Date.today + 3
     if rental.save
       render(
-        json: {id: rental.id, customer_id: rental.customer.id, movie_id: rental.movie.id}
+        json: {id: rental.id, customer_id: rental.customer.id, movie_id: rental.movie.id, due_date: rental.due_date}
       )
     else
       render(

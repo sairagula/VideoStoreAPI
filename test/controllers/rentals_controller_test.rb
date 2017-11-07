@@ -3,15 +3,15 @@ require "test_helper"
 describe RentalsController do
   let(:c) {Customer.first}
   let(:m) {Movie.first}
+  let(:rental_data) {
+    {
+      customer_id: c.id,
+      movie_id: m.id
+    }
+  }
   describe "checkout" do
     it "will create a new instance of rental" do
       # arrange
-      rental_data =
-      {
-        customer_id: c.id,
-        movie_id: m.id
-      }
-
       start_count = Rental.count
       availible = m.available_inventory
       num_movies = c.movies_checked_out_count
@@ -62,5 +62,13 @@ describe RentalsController do
       m.available_inventory.must_equal availible
       c.movies_checked_out_count.must_equal num_movies
     end # without movie_id
+
+    it "sends the correct data back in the response" do
+      keys = ["customer_id", "due_date", "id", "movie_id"]
+      post rentals_path, params: {rental: rental_data}
+
+      body = JSON.parse(response.body)
+      body.keys.sort.must_equal keys
+    end
   end # checkout
 end

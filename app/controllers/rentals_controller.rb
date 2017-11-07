@@ -1,6 +1,23 @@
 class RentalsController < ApplicationController
 
   def create
-    render json: { "test" => 1}
+    rental = Rental.new(rental_data)
+    rental.due_date = Date.today + 3
+    binding.pry
+    if rental.save
+      binding.pry
+      render(
+        json: {id: rental.id, customer_id: rental.customer.id, movie_id: rental.movie.id}
+      )
+    else
+      render(
+        json: {error: rental.errors.messages}, status: :bad_request
+      )
+    end # if/else
   end
+
+  private
+  def rental_data
+    params.require(:rental).permit(:customer_id, :movie_id)
+  end # rental_data
 end

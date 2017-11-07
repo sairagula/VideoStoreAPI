@@ -41,10 +41,26 @@ describe RentalsController do
       # Assert
       Rental.count.must_equal start_count
       m.available_inventory.must_equal availible
-      c.movies_checked_out_count.must_equal num_movies 
+      c.movies_checked_out_count.must_equal num_movies
     end # without customer_id
 
     it "won't change the db if the request didn't provide the customer_id" do
+      rental_data =
+      {
+        customer_id: c.id
+      }
+
+      start_count = Rental.count
+      availible = m.available_inventory
+      num_movies = c.movies_checked_out_count
+
+      # Act
+      post rentals_path, params: {rental: rental_data}
+
+      # Assert
+      Rental.count.must_equal start_count
+      m.available_inventory.must_equal availible
+      c.movies_checked_out_count.must_equal num_movies
     end # without movie_id
   end # checkout
 end

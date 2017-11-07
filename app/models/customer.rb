@@ -3,7 +3,7 @@ class Customer < ApplicationRecord
 
   validates :name, presence: true
 
-  def self.movies_checked_out
+  def movies_checked_out_count
     self.rentals.where(checked_out: true).count
   end # movies_checked_out
 

@@ -84,6 +84,8 @@ describe RentalsController do
           r = post rentals_path, params: {rental: rental_data}
 
           Rental.count.must_equal start_count + 1
+          m.available_inventory.must_equal availible - 1
+          c.movies_checked_out_count.must_equal num_movies + 1 
 
           r_id = Rental.last.id
 
@@ -91,7 +93,7 @@ describe RentalsController do
           patch rental_path(r_id)
 
           # Assert
-          Rental.count.must_equal start_count 
+          Rental.count.must_equal start_count + 1
           m.available_inventory.must_equal availible
           c.movies_checked_out_count.must_equal num_movies
     end # checkin a movie

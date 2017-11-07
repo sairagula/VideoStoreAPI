@@ -15,7 +15,19 @@ class RentalsController < ApplicationController
   end # create
 
   def update
-  end # update 
+    rental = Rental.find_by(id: params[:id])
+    rental.checked_out = false
+    if rental.save
+      binding.pry
+      render(
+        json: {"checked_in" => true}, status: :ok
+      )
+    else
+      render(
+        json: {error: rental.errors.messages}, status: :bad_request
+      )
+    end # if/else
+  end # update
 
   private
   def rental_data

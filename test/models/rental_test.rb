@@ -23,4 +23,23 @@ describe Rental do
       Rental.count.must_equal start_count
     end
   end # validations
+
+  describe "relationships" do
+    let(:m) { Movie.first }
+    let(:c) { Customer.first }
+    let(:r) {
+      Rental.new(customer_id: c.id, movie_id: m.id, due_date: Date.new(2017, 12, 1))
+    }
+    it "belongs to a movie" do
+      r.must_respond_to :customer
+      r.customer.must_equal c
+      r.customer.id.must_equal c.id
+    end
+
+    it "belongs to a customer" do
+      r.must_respond_to :movie
+      r.movie.must_equal m
+      r.movie.id.must_equal m.id
+    end
+  end # relationships
 end # Rental

@@ -75,7 +75,7 @@ describe RentalsController do
   describe "checkin" do
     let(:r) {Rental.new(customer_id: c.id,movie_id: m.id)}
 
-    it "will check in a movie" do
+    it "will check in a movie if the movie exists" do
           # arrange
           start_count = Rental.count
           availible = m.available_inventory
@@ -85,7 +85,7 @@ describe RentalsController do
 
           Rental.count.must_equal start_count + 1
           m.available_inventory.must_equal availible - 1
-          c.movies_checked_out_count.must_equal num_movies + 1 
+          c.movies_checked_out_count.must_equal num_movies + 1
 
           r_id = Rental.last.id
 
@@ -97,5 +97,25 @@ describe RentalsController do
           m.available_inventory.must_equal availible
           c.movies_checked_out_count.must_equal num_movies
     end # checkin a movie
+
+    it "will return not_found if rental does not exist" do
+      # arrange
+      start_count = Rental.count
+
+      r = post rentals_path, params: {rental: rental_data}
+
+      Rental.count.must_equal start_count + 1
+
+      r_id = Rental.last.id + 1
+
+      # Act
+      patch rental_path(r_id)
+
+      # Assert
+      must_respond_with :not_found
+
+      body = JSON.parse(response.body)
+      body.must_equal "no rental found" => true
+    end # not_found
   end # checkin
 end # renals

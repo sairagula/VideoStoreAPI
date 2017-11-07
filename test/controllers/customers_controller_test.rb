@@ -25,14 +25,14 @@ describe CustomersController do
     end # returns all the customers
 
     it "returns customers with exactly the required fields" do
-      keys = ["address", "city", "id", "name", "phone", "postal_code", "registered_at", "state"]
+      keys = ["address", "city", "id", "movies_checked_out_count", "name", "phone", "postal_code", "registered_at", "state"]
 
       get customers_path
 
       body = JSON.parse(response.body)
       body.each do |customer|
         customer.keys.sort.must_equal keys
-      end # .each     
+      end # .each
     end # correct fields
 
   end # index

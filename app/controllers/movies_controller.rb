@@ -13,7 +13,7 @@ class MoviesController < ApplicationController
 
     if movie
       render(
-        json: movie.as_json(only: [:id, :title, :overview, :release_date, :inventory]),
+        json: movie.as_json(only: [:id, :title, :overview, :release_date, :inventory], methods: [ :available_inventory]),
         status: :ok
       )
     else
@@ -21,6 +21,8 @@ class MoviesController < ApplicationController
         json: {nothing: true}, status: :not_found
       )
     end
+
+
   end
 
   def create

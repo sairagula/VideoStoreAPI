@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107181648) do
+ActiveRecord::Schema.define(version: 20171107212027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,4 +46,6 @@ ActiveRecord::Schema.define(version: 20171107181648) do
     t.boolean "checked_out"
   end
 
+  add_foreign_key "rentals", "customers"
+  add_foreign_key "rentals", "movies"
 end

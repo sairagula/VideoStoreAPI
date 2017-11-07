@@ -34,8 +34,7 @@ describe Customer do
         get customers_path
 
         body = JSON.parse(response.body)
-        body[0][:movies_checked_out].must_equal 1
-
+        body[0][:movies_checked_out].must_equal 0
       end
     end # movies_checked_out
   end # custom methods

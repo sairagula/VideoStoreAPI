@@ -34,12 +34,12 @@ describe Movie do
     end
   end
 
-  # describe 'relationships' do
-  #   it "has a list of rentals" do
-  #     mermaid_fin = rentals(:ada)
-  #     mermaid_fin.must_respond_to :products
-  #     mermaid_fin.products.each do |product|
-  #       product.must_be_kind_of Product
-  #     end
-  #   end
+  describe 'relationships' do
+    it "has a list of rentals" do
+      movie.must_respond_to :rentals
+      movie.rentals.each do |rental|
+        rental.must_be_kind_of Rental
+      end
+    end
+  end
 end

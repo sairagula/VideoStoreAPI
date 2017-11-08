@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+# this action returns information for all of the customers in the api request
 def index
   customers = Customer.all
   # render json: customers, status: :ok

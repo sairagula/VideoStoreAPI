@@ -23,6 +23,8 @@ describe RentalsController do
       Rental.count.must_equal start_count + 1
       m.available_inventory.must_equal availible - 1
       c.movies_checked_out_count.must_equal num_movies + 1
+
+
     end # create a new instance
 
     it "won't change the db if the request didn't provide the movie_id" do
@@ -39,9 +41,15 @@ describe RentalsController do
       post rentals_path, params: {rental: rental_data}
 
       # Assert
+      must_respond_with :bad_request
       Rental.count.must_equal start_count
       m.available_inventory.must_equal availible
       c.movies_checked_out_count.must_equal num_movies
+
+      body = JSON.parse(response.body)
+      body.must_equal "error" => {"customer" => ["must exist"], "customer_id" => ["can't be blank"]}
+
+
     end # without customer_id
 
     it "won't change the db if the request didn't provide the customer_id" do
@@ -74,6 +82,9 @@ describe RentalsController do
 
   describe "checkin" do
     let(:r) {Rental.new(customer_id: c.id,movie_id: m.id)}
+    let(:r_id) {
+      Rental.last.id
+    }
 
     it "will check in a movie if the movie exists" do
           # arrange
@@ -87,7 +98,7 @@ describe RentalsController do
           m.available_inventory.must_equal availible - 1
           c.movies_checked_out_count.must_equal num_movies + 1
 
-          r_id = Rental.last.id
+          # r_id = Rental.last.id
 
           # Act
           patch rental_path(r_id)
@@ -117,5 +128,10 @@ describe RentalsController do
       body = JSON.parse(response.body)
       body.must_equal "no rental found" => true
     end # not_found
+
+    it "will send the right data back to the user" do
+
+    end # sends the right data
+
   end # checkin
 end # renals

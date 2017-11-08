@@ -66,9 +66,13 @@ describe RentalsController do
       post rentals_path, params: {rental: rental_data}
 
       # Assert
+      must_respond_with :bad_request
       Rental.count.must_equal start_count
       m.available_inventory.must_equal availible
       c.movies_checked_out_count.must_equal num_movies
+
+      body = JSON.parse(response.body)
+      body.must_equal "error" => {"movie" => ["must exist"], "movie_id" => ["can't be blank"]}
     end # without movie_id
 
     it "sends the correct data back in the response" do

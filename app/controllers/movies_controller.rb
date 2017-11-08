@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
 
+# this action will return a list of all the movies in the api response
   def index
     movies = Movie.all
     render(
@@ -8,6 +9,7 @@ class MoviesController < ApplicationController
     )
   end
 
+# this action will return information for a sinlge instance of Movie in the api request
   def show
     movie = Movie.find_by(id: params[:id])
 
@@ -25,6 +27,7 @@ class MoviesController < ApplicationController
 
   end
 
+# this action allows a new instance of Movie to be created by the user of the api
   def create
     movie = Movie.new(movie_params)
 
